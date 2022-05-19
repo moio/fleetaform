@@ -4,6 +4,8 @@ Automated [fleet](https://fleet.rancher.io/) test environments.
 
 Light on hardware, ready in minutes, and all you need is `docker`!
 
+[![golangci-lint](https://github.com/moio/fleetaform/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/moio/fleetaform/actions/workflows/golangci-lint.yml)
+
 ## Rationale
 Testing fleet end-to-end requires multiple Kubernetes clusters, which can take significant and hardware resources to set up.
 
