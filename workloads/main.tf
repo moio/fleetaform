@@ -60,6 +60,8 @@ resource "helm_release" "fleet_token" {
   depends_on = [helm_release.fleet_fleet]
   name       = "fleet-token-creator"
   chart      = "./workloads/fleet-token-creator"
+  namespace = "fleet-local"
+  create_namespace = true
   wait_for_jobs = true
 }
 
