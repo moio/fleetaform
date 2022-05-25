@@ -20,9 +20,9 @@ resource "docker_network" "shared_network" {
   driver = "bridge"
 }
 
-resource "k3d_cluster" "fleet" {
+resource "k3d_cluster" "upstream" {
   depends_on = [docker_network.shared_network]
-  name    = "fleet"
+  name    = "upstream"
   servers = 1
   agents  = 0
 
@@ -58,10 +58,10 @@ resource "k3d_cluster" "downstream" {
   }
 }
 
-output "fleet_api_url" {
-  value = "https://k3d-${k3d_cluster.fleet.name}-server-0:6443"
+output "upstream_api_url" {
+  value = "https://k3d-${k3d_cluster.upstream.name}-server-0:6443"
 }
 
-output "fleet_ca_certificate" {
-  value = k3d_cluster.fleet.credentials.0.cluster_ca_certificate
+output "upstream_ca_certificate" {
+  value = k3d_cluster.upstream.credentials.0.cluster_ca_certificate
 }

@@ -12,16 +12,16 @@ terraform {
 }
 
 provider "kubernetes" {
-  alias = "fleet"
+  alias = "upstream"
   config_path = "~/.kube/config"
-  config_context = "k3d-fleet"
+  config_context = "k3d-upstream"
 }
 
 provider "helm" {
-  alias = "fleet"
+  alias = "upstream"
   kubernetes {
     config_path = "~/.kube/config"
-    config_context = "k3d-fleet"
+    config_context = "k3d-upstream"
   }
 }
 
@@ -40,7 +40,7 @@ provider "helm" {
 }
 
 resource "helm_release" "fleet_fleet_crd" {
-  provider = helm.fleet
+  provider = helm.upstream
   name       = "fleet-crd"
   namespace = "fleet-system"
   create_namespace = true
@@ -48,7 +48,7 @@ resource "helm_release" "fleet_fleet_crd" {
 }
 
 resource "helm_release" "fleet_fleet" {
-  provider = helm.fleet
+  provider = helm.upstream
   depends_on = [helm_release.fleet_fleet_crd]
   name       = "fleet"
   namespace = "fleet-system"
@@ -56,7 +56,7 @@ resource "helm_release" "fleet_fleet" {
 }
 
 resource "helm_release" "fleet_token" {
-  provider = helm.fleet
+  provider = helm.upstream
   depends_on = [helm_release.fleet_fleet]
   name       = "fleet-token-creator"
   chart      = "./workloads/fleet-token-creator"
@@ -64,7 +64,7 @@ resource "helm_release" "fleet_token" {
 }
 
 data "kubernetes_secret" "downstream_values" {
-  provider = kubernetes.fleet
+  provider = kubernetes.upstream
   depends_on = [helm_release.fleet_token]
   metadata {
     namespace = "fleet-local"
@@ -73,7 +73,7 @@ data "kubernetes_secret" "downstream_values" {
 }
 
 data "kubernetes_service_account" "default" {
-  provider = kubernetes.fleet
+  provider = kubernetes.upstream
   metadata {
     name = "default"
     namespace = "kube-system"
@@ -81,7 +81,7 @@ data "kubernetes_service_account" "default" {
 }
 
 data "kubernetes_secret" "upstream_ca" {
-  provider = kubernetes.fleet
+  provider = kubernetes.upstream
   metadata {
     namespace = "kube-system"
     name = data.kubernetes_service_account.default.default_secret_name
@@ -97,11 +97,11 @@ resource "helm_release" "fleet_agent" {
 
   set_sensitive {
     name  = "apiServerCA"
-    value = var.fleet_ca_certificate
+    value = var.upstream_ca_certificate
   }
   set {
     name  = "apiServerURL"
-    value = var.fleet_api_url
+    value = var.upstream_api_url
   }
   set {
     name  = "clusterNamespace"
