@@ -38,19 +38,22 @@ provider "rancher2" {
 provider "helm" {
   alias = "upstream"
   kubernetes {
-    config_path = "~/.kube/config"
-    config_context = "k3d-upstream"
+    host = var.upstream_credentials.host
+    client_certificate = var.upstream_credentials.client_certificate
+    client_key = var.upstream_credentials.client_key
+    cluster_ca_certificate = var.upstream_credentials.cluster_ca_certificate
   }
 }
 
 provider "helm" {
   alias = "downstream"
   kubernetes {
-    config_path = "~/.kube/config"
-    config_context = "k3d-downstream"
+    host = var.downstream_credentials.host
+    client_certificate = var.downstream_credentials.client_certificate
+    client_key = var.downstream_credentials.client_key
+    cluster_ca_certificate = var.downstream_credentials.cluster_ca_certificate
   }
 }
-
 
 resource "helm_release" "cert-manager" {
   provider = helm.upstream

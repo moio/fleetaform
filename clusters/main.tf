@@ -87,3 +87,21 @@ output "upstream_url" {
 output "upstream_external_url" {
   value = "https://localhost:6443"
 }
+
+output "upstream_credentials" {
+  value = {
+    host = k3d_cluster.upstream.credentials.0.host
+    client_certificate = k3d_cluster.upstream.credentials.0.client_certificate
+    client_key = k3d_cluster.upstream.credentials.0.client_key
+    cluster_ca_certificate = k3d_cluster.upstream.credentials.0.cluster_ca_certificate
+  }
+}
+
+output "downstream_credentials" {
+  value = {
+    host = k3d_cluster.downstream.credentials.0.host
+    client_certificate = k3d_cluster.downstream.credentials.0.client_certificate
+    client_key = k3d_cluster.downstream.credentials.0.client_key
+    cluster_ca_certificate = k3d_cluster.downstream.credentials.0.cluster_ca_certificate
+  }
+}
