@@ -43,12 +43,6 @@ provider "helm" {
   }
 }
 
-provider "kubernetes" {
-  alias = "downstream"
-  config_path = "~/.kube/config"
-  config_context = "k3d-downstream"
-}
-
 provider "helm" {
   alias = "downstream"
   kubernetes {
