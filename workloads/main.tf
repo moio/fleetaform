@@ -103,55 +103,33 @@ resource "helm_release" "rancher" {
     name  = "replicas"
     value = 1
   }
-
-  wait = true
-  wait_for_jobs = true
 }
 
-resource "helm_release" "api_token" {
+resource "helm_release" "rancher_configurator" {
   provider = helm.upstream
   depends_on = [helm_release.rancher]
-  name       = "api-token-creator"
-  chart      = "./workloads/api-token-creator"
+  name       = "rancher-configurator"
+  chart      = "./workloads/rancher-configurator"
 
   set {
     name  = "tokenString"
     value = random_password.api_token_key.result
   }
+
+  wait_for_jobs = true
 }
 
-# HACK: Rancher's helm chart does not wait for the installation of fleet, specifically its CRDs
-# waiting for them to be ready is necessary in order to instantiate the registration token
-resource "null_resource" "wait_for_fleet" {
-  depends_on = [helm_release.rancher]
-  provisioner "local-exec" {
-    command = <<EOT
-for i in {1..100}
-do
-  kubectl wait --for condition=established crd/clusterregistrationtokens.fleet.cattle.io
-  if [ $? -eq 0 ]
-  then
-      break
-  fi
-  sleep 3
-done
-EOT
-  }
-}
-
-resource "helm_release" "fleet_token" {
+resource "helm_release" "fleet_token_creator" {
   provider = helm.upstream
-  depends_on = [null_resource.wait_for_fleet]
+  depends_on = [helm_release.rancher_configurator]
   name       = "fleet-token-creator"
   chart      = "./workloads/fleet-token-creator"
-  namespace = "fleet-local"
-  create_namespace = true
   wait_for_jobs = true
 }
 
 resource "rancher2_cluster" "imported_downstream" {
   provider = rancher2.upstream
-  depends_on = [helm_release.api_token, helm_release.fleet_token]
+  depends_on = [helm_release.fleet_token_creator]
   name = "downstream"
 }
 
