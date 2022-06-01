@@ -16,7 +16,7 @@ provider "docker" {
 }
 
 resource "docker_network" "shared_network" {
-  name = "fleet-network"
+  name = "k3d"
   driver = "bridge"
 }
 
@@ -27,7 +27,7 @@ resource "k3d_cluster" "upstream" {
   agents  = 0
 
   image   = "docker.io/rancher/k3s:v1.23.6-k3s1"
-  network = "fleet-network"
+  network = "k3d"
 
   k3d {
     disable_load_balancer     = true
@@ -54,7 +54,7 @@ resource "k3d_cluster" "downstream" {
   agents  = 0
 
   image   = "docker.io/rancher/k3s:v1.23.6-k3s1"
-  network = "fleet-network"
+  network = "k3d"
 
   k3d {
     disable_load_balancer     = true
