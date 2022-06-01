@@ -4,6 +4,8 @@ module "clusters" {
 
 module "workloads" {
   source = "./workloads"
-  upstream_ca_certificate = module.clusters.upstream_ca_certificate
-  upstream_api_url = module.clusters.upstream_api_url
+  upstream_hostname = module.clusters.upstream_hostname
+  upstream_port = module.clusters.upstream_port
+  upstream_url = module.clusters.upstream_url
+  upstream_external_url = module.clusters.upstream_external_url
 }

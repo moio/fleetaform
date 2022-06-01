@@ -1,6 +1,12 @@
-variable "upstream_api_url" {
+variable "upstream_hostname" {
   type = string
 }
-variable "upstream_ca_certificate" {
+variable "upstream_port" {
+  type = string
+}
+variable "upstream_url" {
+  type = string
+}
+variable "upstream_external_url" {
   type = string
 }

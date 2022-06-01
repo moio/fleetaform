@@ -1,0 +1,5 @@
+# Default values for api-token-creator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+tokenString: zfllcbdr4677rkj4hmlr8rsmljg87l7874882928khlfs2pmmcq7l5

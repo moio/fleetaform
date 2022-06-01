@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+   labels:
+     app: rancher
+   name: rancher-additional-fleetaform
+   namespace: cattle-system
+spec:
+ rules:
+ - host: localhost
+   http:
+     paths:
+     - backend:
+         service:
+           name: rancher
+           port:
+             number: 80
+       pathType: ImplementationSpecific
+ tls:
+ - hosts:
+   - localhost
+   secretName: tls-rancher-ingress
