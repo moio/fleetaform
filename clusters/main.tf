@@ -37,6 +37,14 @@ resource "k3d_cluster" "upstream" {
     update_default_kubeconfig = true
     switch_current_context    = true
   }
+
+  port {
+    host_port      = 6443
+    container_port = 443
+    node_filters = [
+      "server:0:direct",
+    ]
+  }
 }
 
 resource "k3d_cluster" "downstream" {
