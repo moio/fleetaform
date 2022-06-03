@@ -35,3 +35,4 @@ Feel free to use [k9s](https://k9scli.io/) to inspect results!
 
 - Destroy workloads, keeping clusters intact: `terraform destroy -target=module.workloads -auto-approve`
 - Destroy everything: `terraform destroy -target=module.workloads -auto-approve && terraform destroy -auto-approve`
+- Destroy everything (if Terraform fails): `rm terraform.tfstate && k3d cluster delete --all && docker network rm k3d`
