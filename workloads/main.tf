@@ -4,14 +4,6 @@ terraform {
       source = "hashicorp/random"
       version = "3.2.0"
     }
-    local = {
-      source = "hashicorp/local"
-      version = "2.2.3"
-    }
-    http = {
-      source = "terraform-aws-modules/http"
-      version = "2.4.1"
-    }
     helm = {
       source = "hashicorp/helm"
       version = "2.5.1"
@@ -136,20 +128,26 @@ resource "rancher2_cluster" "imported_downstream" {
   name = "downstream"
 }
 
-data "http" "import_manifest" {
-  depends_on = [rancher2_cluster.imported_downstream]
-  url = replace(rancher2_cluster.imported_downstream.cluster_registration_token.0.manifest_url, var.upstream_url, var.upstream_external_url)
-  insecure = true
-}
-
-resource "local_file" "import_manifest" {
-  filename = "./workloads/import-manifest/templates/manifest.yaml"
-  content = data.http.import_manifest.body
-}
-
 resource "helm_release" "import_manifest" {
   provider = helm.downstream
-  depends_on = [local_file.import_manifest]
+  depends_on = [rancher2_cluster.imported_downstream]
   name       = "import-manifest"
   chart      = "./workloads/import-manifest"
+
+  set {
+    name  = "manifestUrl"
+    value = rancher2_cluster.imported_downstream.cluster_registration_token.0.manifest_url
+  }
+  set_sensitive {
+    name  = "clientCertificate"
+    value = base64encode(var.downstream_credentials.client_certificate)
+  }
+  set_sensitive {
+    name  = "clientKey"
+    value = base64encode(var.downstream_credentials.client_key)
+  }
+  set_sensitive {
+    name  = "clusterCACertificate"
+    value = base64encode(var.downstream_credentials.cluster_ca_certificate)
+  }
 }
