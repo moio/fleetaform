@@ -128,11 +128,11 @@ resource "rancher2_cluster" "imported_downstream" {
   name = "downstream"
 }
 
-resource "helm_release" "import_manifest" {
+resource "helm_release" "rancher_importer" {
   provider = helm.downstream
   depends_on = [rancher2_cluster.imported_downstream]
-  name       = "import-manifest"
-  chart      = "./workloads/import-manifest"
+  name       = "rancher-importer"
+  chart      = "./workloads/rancher-importer"
 
   set {
     name  = "manifestUrl"
