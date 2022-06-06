@@ -10,7 +10,7 @@ terraform {
 provider "helm" {
   alias = "downstream"
   kubernetes {
-    host = var.downstream_credentials.host
+    host = var.downstream_credentials.kubeconfig_host
     client_certificate = var.downstream_credentials.client_certificate
     client_key = var.downstream_credentials.client_key
     cluster_ca_certificate = var.downstream_credentials.cluster_ca_certificate
@@ -30,7 +30,7 @@ resource "helm_release" "fleet_agent" {
   }
   set {
     name  = "apiServerURL"
-    value = "https://${var.upstream_internal_hostname}:${var.upstream_internal_port}"
+    value = "https://${var.upstream_credentials.internal_host}:${var.upstream_credentials.internal_port}"
   }
   set {
     name  = "clusterNamespace"

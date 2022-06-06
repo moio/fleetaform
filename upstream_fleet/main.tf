@@ -13,19 +13,19 @@ terraform {
 
 provider "kubernetes" {
   alias = "upstream"
-  host = var.upstream_credentials.host
-  client_certificate = var.upstream_credentials.client_certificate
-  client_key = var.upstream_credentials.client_key
-  cluster_ca_certificate = var.upstream_credentials.cluster_ca_certificate
+  host = var.credentials.kubeconfig_host
+  client_certificate = var.credentials.client_certificate
+  client_key = var.credentials.client_key
+  cluster_ca_certificate = var.credentials.cluster_ca_certificate
 }
 
 provider "helm" {
   alias = "upstream"
   kubernetes {
-    host = var.upstream_credentials.host
-    client_certificate = var.upstream_credentials.client_certificate
-    client_key = var.upstream_credentials.client_key
-    cluster_ca_certificate = var.upstream_credentials.cluster_ca_certificate
+    host = var.credentials.kubeconfig_host
+    client_certificate = var.credentials.client_certificate
+    client_key = var.credentials.client_key
+    cluster_ca_certificate = var.credentials.cluster_ca_certificate
   }
 }
 

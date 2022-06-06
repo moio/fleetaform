@@ -22,7 +22,7 @@ resource "random_password" "api_token_key" {
 
 provider "rancher2" {
   alias = "upstream"
-  api_url    = "https://${var.upstream_external_hostname}:${var.upstream_external_port}"
+  api_url    = "https://${var.credentials.external_host}:${var.credentials.external_port}"
   token_key = "token-fleetaform:${random_password.api_token_key.result}"
   insecure = true
 }
@@ -30,10 +30,10 @@ provider "rancher2" {
 provider "helm" {
   alias = "upstream"
   kubernetes {
-    host = var.upstream_credentials.host
-    client_certificate = var.upstream_credentials.client_certificate
-    client_key = var.upstream_credentials.client_key
-    cluster_ca_certificate = var.upstream_credentials.cluster_ca_certificate
+    host = var.credentials.kubeconfig_host
+    client_certificate = var.credentials.client_certificate
+    client_key = var.credentials.client_key
+    cluster_ca_certificate = var.credentials.cluster_ca_certificate
   }
 }
 
@@ -70,7 +70,7 @@ resource "helm_release" "rancher" {
   }
   set {
     name  = "extraEnv[0].value"
-    value = "https://${var.upstream_internal_hostname}"
+    value = "https://${var.credentials.internal_host}"
   }
   set {
     name  = "extraEnv[1].name"
@@ -82,7 +82,7 @@ resource "helm_release" "rancher" {
   }
   set {
     name  = "hostname"
-    value = var.upstream_internal_hostname
+    value = var.credentials.internal_host
   }
   set {
     name  = "replicas"

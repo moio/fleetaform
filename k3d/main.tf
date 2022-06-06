@@ -67,25 +67,13 @@ resource "k3d_cluster" "downstream" {
   }
 }
 
-output "upstream_internal_hostname" {
-  value = "k3d-upstream-server-0"
-}
-
-output "upstream_internal_port" {
-  value = 6443
-}
-
-output "upstream_external_hostname" {
-  value = "localhost"
-}
-
-output "upstream_external_port" {
-  value = 6443
-}
-
 output "upstream_credentials" {
   value = {
-    host = k3d_cluster.upstream.credentials.0.host
+    internal_host = "k3d-upstream-server-0"
+    internal_port = 6443
+    external_host = "localhost"
+    external_port = 6443
+    kubeconfig_host = k3d_cluster.upstream.credentials.0.host
     client_certificate = k3d_cluster.upstream.credentials.0.client_certificate
     client_key = k3d_cluster.upstream.credentials.0.client_key
     cluster_ca_certificate = k3d_cluster.upstream.credentials.0.cluster_ca_certificate
@@ -95,7 +83,7 @@ output "upstream_credentials" {
 output "downstream_credentials" {
   value = [
     for downstream in k3d_cluster.downstream : {
-      host = downstream.credentials.0.host
+      kubeconfig_host = downstream.credentials.0.host
       client_certificate = downstream.credentials.0.client_certificate
       client_key = downstream.credentials.0.client_key
       cluster_ca_certificate = downstream.credentials.0.cluster_ca_certificate

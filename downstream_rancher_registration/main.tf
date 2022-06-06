@@ -10,7 +10,7 @@ terraform {
 provider "helm" {
   alias = "downstream"
   kubernetes {
-    host = var.downstream_credentials.host
+    host = var.downstream_credentials.kubeconfig_host
     client_certificate = var.downstream_credentials.client_certificate
     client_key = var.downstream_credentials.client_key
     cluster_ca_certificate = var.downstream_credentials.cluster_ca_certificate
