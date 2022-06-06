@@ -80,7 +80,7 @@ resource "helm_release" "rancher" {
   }
   set {
     name  = "extraEnv[0].value"
-    value = var.upstream_url
+    value = "https://${var.upstream_internal_hostname}"
   }
   set {
     name  = "extraEnv[1].name"
@@ -92,7 +92,7 @@ resource "helm_release" "rancher" {
   }
   set {
     name  = "hostname"
-    value = var.upstream_hostname
+    value = var.upstream_internal_hostname
   }
   set {
     name  = "replicas"
@@ -104,7 +104,7 @@ resource "helm_release" "rancher_configurator" {
   provider = helm.upstream
   depends_on = [helm_release.rancher]
   name       = "rancher-configurator"
-  chart      = "./workloads/rancher-configurator"
+  chart      = "./charts/rancher-configurator"
 
   set {
     name  = "tokenString"
@@ -118,7 +118,7 @@ resource "helm_release" "fleet_token_creator" {
   provider = helm.upstream
   depends_on = [helm_release.rancher_configurator]
   name       = "fleet-token-creator"
-  chart      = "./workloads/fleet-token-creator"
+  chart      = "./charts/fleet-token-creator"
   wait_for_jobs = true
 }
 
@@ -132,7 +132,7 @@ resource "helm_release" "rancher_importer" {
   provider = helm.downstream
   depends_on = [rancher2_cluster.imported_downstream]
   name       = "rancher-importer"
-  chart      = "./workloads/rancher-importer"
+  chart      = "./charts/rancher-importer"
 
   set {
     name  = "manifestUrl"

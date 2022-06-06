@@ -1,0 +1,37 @@
+apiVersion: v1
+data:
+  clientCertificate: {{ .Values.clientCertificate }}
+  clientKey: {{ .Values.clientKey }}
+  clusterCACertificate: {{ .Values.clusterCACertificate }}
+kind: Secret
+metadata:
+  name: fleetaform-secret
+  namespace: default
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: import-manifest
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - name: dummy
+          image: alpine/k8s:1.20.15
+          volumeMounts:
+            - name: fleetaform-secret
+              mountPath: "/secret"
+              readOnly: true
+          command:
+            - "bash"
+            - "-c"
+            - "curl --insecure --location {{ .Values.manifestUrl }} | kubectl apply --server https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --client-certificate /secret/clientCertificate --client-key /secret/clientKey --certificate-authority /secret/clusterCACertificate -f -"
+      volumes:
+        - name: fleetaform-secret
+          secret:
+            secretName: fleetaform-secret
+            optional: false
+      restartPolicy: Never

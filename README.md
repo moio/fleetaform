@@ -20,7 +20,6 @@ Fleetaform automates the deployment of lightweight Kubernetes ([k3s](https://k3s
 ```
 cd fleetaform
 terraform init
-terraform apply -target=module.clusters -auto-approve
 terraform apply -auto-approve
 ```
 
@@ -31,8 +30,16 @@ That will create:
 
 Feel free to use [k9s](https://k9scli.io/) to inspect results!
 
+### Install on top of Rancher
+
+Edit `main.tf` according to comments to enable alternative setups.
+
 ### Quick operations
 
-- Destroy workloads, keeping clusters intact: `terraform destroy -target=module.workloads -auto-approve`
-- Destroy everything: `terraform destroy -target=module.workloads -auto-approve && terraform destroy -auto-approve`
-- Destroy everything (if Terraform fails): `rm terraform.tfstate && k3d cluster delete --all && docker network rm k3d`
+- Destroy everything: `terraform destroy -auto-approve`
+- Hard destroy everything (if Terraform fails): `rm terraform.tfstate ; k3d cluster delete --all ; docker network rm k3d`
+- Hard recreate everything from scratch:
+
+```sh
+rm terraform.tfstate ; k3d cluster delete --all ; docker network rm k3d ; terraform init; terraform apply -auto-approve
+```

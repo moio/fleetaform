@@ -1,13 +1,23 @@
-module "clusters" {
-  source = "./clusters"
+module "k3d" {
+  source = "./k3d"
 }
 
-module "workloads" {
-  source = "./workloads"
-  upstream_hostname = module.clusters.upstream_hostname
-  upstream_port = module.clusters.upstream_port
-  upstream_url = module.clusters.upstream_url
-  upstream_external_url = module.clusters.upstream_external_url
-  upstream_credentials = module.clusters.upstream_credentials
-  downstream_credentials = module.clusters.downstream_credentials
+module "bare_fleet" {
+  source = "./bare_fleet"
+  upstream_internal_hostname = module.k3d.upstream_internal_hostname
+  upstream_internal_url = module.k3d.upstream_internal_url
+  upstream_external_url = module.k3d.upstream_external_url
+  upstream_credentials = module.k3d.upstream_credentials
+  downstream_credentials = module.k3d.downstream_credentials
 }
+
+# Comment module above and uncomment below to deploy fleet as a rancher component
+
+#module "fleet_on_rancher" {
+#  source = "./fleet_on_rancher"
+#  upstream_internal_hostname = module.k3d.upstream_internal_hostname
+#  upstream_internal_url = module.k3d.upstream_internal_url
+#  upstream_external_url = module.k3d.upstream_external_url
+#  upstream_credentials = module.k3d.upstream_credentials
+#  downstream_credentials = module.k3d.downstream_credentials
+#}

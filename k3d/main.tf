@@ -66,22 +66,12 @@ resource "k3d_cluster" "downstream" {
   }
 }
 
-locals {
-  upstream_hostname = "k3d-upstream-server-0"
-  upstream_port = 443
-  upstream_url = "https://${local.upstream_hostname}:${local.upstream_port}"
+output "upstream_internal_hostname" {
+  value = "k3d-upstream-server-0"
 }
 
-output "upstream_hostname" {
-  value = local.upstream_hostname
-}
-
-output "upstream_port" {
-  value = local.upstream_port
-}
-
-output "upstream_url" {
-  value = local.upstream_url
+output "upstream_internal_url" {
+  value = "https://k3d-upstream-server-0:6443"
 }
 
 output "upstream_external_url" {
