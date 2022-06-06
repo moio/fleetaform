@@ -1,19 +1,19 @@
 module "k3d" {
   source = "./k3d"
-## Uncomment here and the downstream_fleet_registration_1 module below for multiple downstream clusters
-#  downstream_clusters = 2
+  ## Uncomment here and the downstream_fleet_registration_1 module below for multiple downstream clusters
+  #  downstream_clusters = 2
 }
 
 module "upstream_fleet" {
-  source = "./upstream_fleet"
+  source      = "./upstream_fleet"
   credentials = module.k3d.upstream_credentials
 }
 
 module "downstream_fleet_registration_0" {
-  source = "./downstream_fleet_registration"
-  upstream_credentials = module.k3d.upstream_credentials
+  source                 = "./downstream_fleet_registration"
+  upstream_credentials   = module.k3d.upstream_credentials
   downstream_credentials = module.k3d.downstream_credentials.0
-  token = module.upstream_fleet.token
+  token                  = module.upstream_fleet.token
 }
 
 #module "downstream_fleet_registration_1" {

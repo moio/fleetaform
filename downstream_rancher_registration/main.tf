@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "2.5.1"
     }
   }
@@ -10,17 +10,17 @@ terraform {
 provider "helm" {
   alias = "downstream"
   kubernetes {
-    host = var.downstream_credentials.kubeconfig_host
-    client_certificate = var.downstream_credentials.client_certificate
-    client_key = var.downstream_credentials.client_key
+    host                   = var.downstream_credentials.kubeconfig_host
+    client_certificate     = var.downstream_credentials.client_certificate
+    client_key             = var.downstream_credentials.client_key
     cluster_ca_certificate = var.downstream_credentials.cluster_ca_certificate
   }
 }
 
 resource "helm_release" "rancher_importer" {
   provider = helm.downstream
-  name       = "rancher-importer"
-  chart      = "./charts/rancher-importer"
+  name     = "rancher-importer"
+  chart    = "./charts/rancher-importer"
 
   set {
     name  = "manifestUrl"

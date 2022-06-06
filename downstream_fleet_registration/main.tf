@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     helm = {
-      source = "hashicorp/helm"
+      source  = "hashicorp/helm"
       version = "2.5.1"
     }
   }
@@ -10,19 +10,19 @@ terraform {
 provider "helm" {
   alias = "downstream"
   kubernetes {
-    host = var.downstream_credentials.kubeconfig_host
-    client_certificate = var.downstream_credentials.client_certificate
-    client_key = var.downstream_credentials.client_key
+    host                   = var.downstream_credentials.kubeconfig_host
+    client_certificate     = var.downstream_credentials.client_certificate
+    client_key             = var.downstream_credentials.client_key
     cluster_ca_certificate = var.downstream_credentials.cluster_ca_certificate
   }
 }
 
 resource "helm_release" "fleet_agent" {
-  provider = helm.downstream
-  name       = "fleet-agent"
-  namespace = "fleet-system"
+  provider         = helm.downstream
+  name             = "fleet-agent"
+  namespace        = "fleet-system"
   create_namespace = true
-  chart = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-agent-0.3.9.tgz"
+  chart            = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-agent-0.3.9.tgz"
 
   set_sensitive {
     name  = "apiServerCA"
