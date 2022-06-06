@@ -7,7 +7,7 @@ module "k3d" {
 module "upstream_fleet" {
   source = "./upstream_fleet"
   upstream_internal_hostname = module.k3d.upstream_internal_hostname
-  upstream_internal_url = module.k3d.upstream_internal_url
+  upstream_internal_port = module.k3d.upstream_internal_port
   upstream_external_url = module.k3d.upstream_external_url
   upstream_credentials = module.k3d.upstream_credentials
 }
@@ -15,7 +15,7 @@ module "upstream_fleet" {
 module "downstream_fleet_registration_0" {
   source = "./downstream_fleet_registration"
   upstream_internal_hostname = module.k3d.upstream_internal_hostname
-  upstream_internal_url = module.k3d.upstream_internal_url
+  upstream_internal_port = module.k3d.upstream_internal_port
   upstream_external_url = module.k3d.upstream_external_url
   upstream_credentials = module.k3d.upstream_credentials
   downstream_credentials = module.k3d.downstream_credentials.0
@@ -25,7 +25,7 @@ module "downstream_fleet_registration_0" {
 #module "downstream_fleet_registration_1" {
 #  source = "./downstream_fleet_registration"
 #  upstream_internal_hostname = module.k3d.upstream_internal_hostname
-#  upstream_internal_url = module.k3d.upstream_internal_url
+#  upstream_internal_port = module.k3d.upstream_internal_port
 #  upstream_external_url = module.k3d.upstream_external_url
 #  upstream_credentials = module.k3d.upstream_credentials
 #  downstream_credentials = module.k3d.downstream_credentials.1
@@ -39,7 +39,7 @@ module "downstream_fleet_registration_0" {
 #module "upstream_rancher" {
 #  source = "./upstream_rancher"
 #  upstream_internal_hostname = module.k3d.upstream_internal_hostname
-#  upstream_internal_url = module.k3d.upstream_internal_url
+#  upstream_internal_port = module.k3d.upstream_internal_port
 #  upstream_external_url = module.k3d.upstream_external_url
 #  upstream_credentials = module.k3d.upstream_credentials
 #  downstream_cluster_count = 2
@@ -48,7 +48,7 @@ module "downstream_fleet_registration_0" {
 #module "downstream_rancher_registration_0" {
 #  source = "./downstream_rancher_registration"
 #  upstream_internal_hostname = module.k3d.upstream_internal_hostname
-#  upstream_internal_url = module.k3d.upstream_internal_url
+#  upstream_internal_port = module.k3d.upstream_internal_port
 #  upstream_external_url = module.k3d.upstream_external_url
 #  upstream_credentials = module.k3d.upstream_credentials
 #  downstream_credentials = module.k3d.downstream_credentials.0
@@ -58,7 +58,7 @@ module "downstream_fleet_registration_0" {
 #module "downstream_rancher_registration_1" {
 #  source = "./downstream_rancher_registration"
 #  upstream_internal_hostname = module.k3d.upstream_internal_hostname
-#  upstream_internal_url = module.k3d.upstream_internal_url
+#  upstream_internal_port = module.k3d.upstream_internal_port
 #  upstream_external_url = module.k3d.upstream_external_url
 #  upstream_credentials = module.k3d.upstream_credentials
 #  downstream_credentials = module.k3d.downstream_credentials.1

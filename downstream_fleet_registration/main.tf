@@ -30,7 +30,7 @@ resource "helm_release" "fleet_agent" {
   }
   set {
     name  = "apiServerURL"
-    value = var.upstream_internal_url
+    value = "https://${var.upstream_internal_hostname}:${var.upstream_internal_port}"
   }
   set {
     name  = "clusterNamespace"

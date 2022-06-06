@@ -71,8 +71,8 @@ output "upstream_internal_hostname" {
   value = "k3d-upstream-server-0"
 }
 
-output "upstream_internal_url" {
-  value = "https://k3d-upstream-server-0:6443"
+output "upstream_internal_port" {
+  value = 6443
 }
 
 output "upstream_external_url" {

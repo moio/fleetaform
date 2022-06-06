@@ -1,8 +1,8 @@
 variable "upstream_internal_hostname" {
   type = string
 }
-variable "upstream_internal_url" {
-  type = string
+variable "upstream_internal_port" {
+  type = number
 }
 variable "upstream_external_url" {
   type = string
