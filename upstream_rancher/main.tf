@@ -37,16 +37,6 @@ provider "helm" {
   }
 }
 
-provider "helm" {
-  alias = "downstream"
-  kubernetes {
-    host = var.downstream_credentials.host
-    client_certificate = var.downstream_credentials.client_certificate
-    client_key = var.downstream_credentials.client_key
-    cluster_ca_certificate = var.downstream_credentials.cluster_ca_certificate
-  }
-}
-
 resource "helm_release" "cert-manager" {
   provider = helm.upstream
   name       = "cert-manager"
@@ -123,31 +113,14 @@ resource "helm_release" "fleet_token_creator" {
 }
 
 resource "rancher2_cluster" "imported_downstream" {
+  count = var.downstream_cluster_count
   provider = rancher2.upstream
   depends_on = [helm_release.fleet_token_creator]
-  name = "downstream"
+  name = "downstream-${count.index}"
 }
 
-resource "helm_release" "rancher_importer" {
-  provider = helm.downstream
-  depends_on = [rancher2_cluster.imported_downstream]
-  name       = "rancher-importer"
-  chart      = "./charts/rancher-importer"
-
-  set {
-    name  = "manifestUrl"
-    value = rancher2_cluster.imported_downstream.cluster_registration_token.0.manifest_url
-  }
-  set_sensitive {
-    name  = "clientCertificate"
-    value = base64encode(var.downstream_credentials.client_certificate)
-  }
-  set_sensitive {
-    name  = "clientKey"
-    value = base64encode(var.downstream_credentials.client_key)
-  }
-  set_sensitive {
-    name  = "clusterCACertificate"
-    value = base64encode(var.downstream_credentials.cluster_ca_certificate)
-  }
+output "manifest_urls" {
+  value = [
+    for downstream in rancher2_cluster.imported_downstream : downstream.cluster_registration_token.0.manifest_url
+  ]
 }

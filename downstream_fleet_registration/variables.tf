@@ -13,3 +13,7 @@ variable "upstream_credentials" {
 variable "downstream_credentials" {
   type = object({host: string, client_certificate: string, client_key:string, cluster_ca_certificate:string})
 }
+variable "token" {
+  type = string
+  default = null
+}

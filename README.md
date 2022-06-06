@@ -30,7 +30,7 @@ That will create:
 
 Feel free to use [k9s](https://k9scli.io/) to inspect results!
 
-### Install on top of Rancher
+### Install with Rancher, multiple clusters...
 
 Edit `main.tf` according to comments to enable alternative setups.
 

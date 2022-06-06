@@ -48,8 +48,9 @@ resource "k3d_cluster" "upstream" {
 }
 
 resource "k3d_cluster" "downstream" {
+  count = var.downstream_clusters
   depends_on = [docker_network.shared_network]
-  name    = "downstream"
+  name    = "downstream-${count.index}"
   servers = 1
   agents  = 0
 
@@ -88,10 +89,12 @@ output "upstream_credentials" {
 }
 
 output "downstream_credentials" {
-  value = {
-    host = k3d_cluster.downstream.credentials.0.host
-    client_certificate = k3d_cluster.downstream.credentials.0.client_certificate
-    client_key = k3d_cluster.downstream.credentials.0.client_key
-    cluster_ca_certificate = k3d_cluster.downstream.credentials.0.cluster_ca_certificate
-  }
+  value = [
+    for downstream in k3d_cluster.downstream : {
+      host = downstream.credentials.0.host
+      client_certificate = downstream.credentials.0.client_certificate
+      client_key = downstream.credentials.0.client_key
+      cluster_ca_certificate = downstream.credentials.0.cluster_ca_certificate
+    }
+  ]
 }
