@@ -4,7 +4,10 @@ variable "upstream_internal_hostname" {
 variable "upstream_internal_port" {
   type = number
 }
-variable "upstream_external_url" {
+variable "upstream_external_hostname" {
+  type = string
+}
+variable "upstream_external_port" {
   type = string
 }
 variable "upstream_credentials" {

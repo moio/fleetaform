@@ -22,7 +22,7 @@ resource "random_password" "api_token_key" {
 
 provider "rancher2" {
   alias = "upstream"
-  api_url    = var.upstream_external_url
+  api_url    = "https://${var.upstream_external_hostname}:${var.upstream_external_port}"
   token_key = "token-fleetaform:${random_password.api_token_key.result}"
   insecure = true
 }

@@ -75,8 +75,12 @@ output "upstream_internal_port" {
   value = 6443
 }
 
-output "upstream_external_url" {
-  value = "https://localhost:6443"
+output "upstream_external_hostname" {
+  value = "localhost"
+}
+
+output "upstream_external_port" {
+  value = 6443
 }
 
 output "upstream_credentials" {
