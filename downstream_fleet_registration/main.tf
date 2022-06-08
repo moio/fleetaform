@@ -22,8 +22,16 @@ resource "helm_release" "fleet_agent" {
   name             = "fleet-agent"
   namespace        = "fleet-system"
   create_namespace = true
-  chart            = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-agent-0.3.9.tgz"
+  chart            = var.chart
 
+  set {
+    name  = "image.repository"
+    value = var.image_repository
+  }
+  set {
+    name  = "image.tag"
+    value = var.image_tag
+  }
   set_sensitive {
     name  = "apiServerCA"
     value = var.upstream_credentials.cluster_ca_certificate

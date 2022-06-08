@@ -11,3 +11,13 @@ variable "token" {
   type    = string
   default = null
 }
+
+variable "chart" {
+  default = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-agent-0.3.9.tgz"
+}
+variable "image_repository" {
+  default = "rancher/fleet-agent"
+}
+variable "image_tag" {
+  default = "v0.3.9"
+}

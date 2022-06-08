@@ -34,7 +34,7 @@ resource "helm_release" "fleet_fleet_crd" {
   name             = "fleet-crd"
   namespace        = "fleet-system"
   create_namespace = true
-  chart            = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-crd-0.3.9.tgz"
+  chart            = var.crd_chart
 }
 
 resource "helm_release" "fleet_fleet" {
@@ -42,7 +42,24 @@ resource "helm_release" "fleet_fleet" {
   depends_on = [helm_release.fleet_fleet_crd]
   name       = "fleet"
   namespace  = "fleet-system"
-  chart      = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-0.3.9.tgz"
+  chart            = var.chart
+
+  set {
+    name  = "image.repository"
+    value = var.image_repository
+  }
+  set {
+    name  = "image.tag"
+    value = var.image_tag
+  }
+  set {
+    name  = "agentImage.repository"
+    value = var.agent_image_repository
+  }
+  set {
+    name  = "agentImage.tag"
+    value = var.agent_image_tag
+  }
 }
 
 resource "helm_release" "fleet_token" {
