@@ -52,4 +52,12 @@ resource "helm_release" "fleet_agent" {
     name  = "token"
     value = var.token
   }
+
+  dynamic "set" {
+    for_each = var.labels
+    content {
+      name = "labels.${set.key}"
+      value = set.value
+    }
+  }
 }

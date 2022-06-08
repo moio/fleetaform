@@ -21,3 +21,9 @@ variable "image_repository" {
 variable "image_tag" {
   default = "v0.3.9"
 }
+
+variable "labels" {
+  default = {
+    "env" = "dev"
+  }
+}
