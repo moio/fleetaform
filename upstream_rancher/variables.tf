@@ -7,3 +7,18 @@ variable "credentials" {
 variable "downstream_cluster_count" {
   type = number
 }
+
+variable "cert_manager_chart" {
+  default = "https://charts.jetstack.io/charts/cert-manager-v1.8.0.tgz"
+}
+
+variable "chart" {
+  default = "https://releases.rancher.com/server-charts/latest/rancher-2.6.5.tgz"
+}
+
+variable "image_repository" {
+  default = "rancher/rancher"
+}
+variable "image_tag" {
+  default = "v2.6.5"
+}

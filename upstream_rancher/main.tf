@@ -40,10 +40,8 @@ provider "helm" {
 resource "helm_release" "cert-manager" {
   provider         = helm.upstream
   name             = "cert-manager"
-  repository       = "https://charts.jetstack.io"
-  chart            = "cert-manager"
+  chart            = var.cert_manager_chart
   namespace        = "cert-manager"
-  version          = "1.8.0"
   create_namespace = true
   set {
     name  = "installCRDs"
@@ -55,11 +53,18 @@ resource "helm_release" "rancher" {
   provider         = helm.upstream
   depends_on       = [helm_release.cert-manager]
   name             = "rancher"
-  repository       = "https://releases.rancher.com/server-charts/latest"
-  chart            = "rancher"
+  chart            = var.chart
   namespace        = "cattle-system"
   create_namespace = true
 
+  set {
+    name  = "rancherImage"
+    value = var.image_repository
+  }
+  set {
+    name  = "rancherImageTag"
+    value = var.image_tag
+  }
   set {
     name  = "bootstrapPassword"
     value = "admin"
