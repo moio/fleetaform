@@ -71,7 +71,7 @@ output "upstream_credentials" {
   value = {
     internal_host = "k3d-upstream-server-0"
     internal_port = 6443
-    external_host = "localhost"
+    external_host = "rancher.local.gd"
     external_port = 6443
     kubeconfig_host = k3d_cluster.upstream.credentials.0.host
     client_certificate = k3d_cluster.upstream.credentials.0.client_certificate

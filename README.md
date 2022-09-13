@@ -30,7 +30,15 @@ That will create:
 
 Feel free to use [k9s](https://k9scli.io/) to inspect results!
 
-### Install with Rancher, multiple clusters...
+### Install with Rancher
+
+Edit `main.tf` commenting `upstream_fleet` and `downstream_fleet_registration` modules, and uncomment `upstream_rancher` and `downstream_rancher_registration` modules.
+
+Once applied, the Rancher console will be accessible at:
+
+[https://rancher.local.gd:6443](https://rancher.local.gd:6443)
+
+### Other options
 
 Edit `main.tf` according to comments to enable alternative setups.
 

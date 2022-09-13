@@ -19,6 +19,7 @@ variable "chart" {
 variable "image_repository" {
   default = "rancher/rancher"
 }
+
 variable "image_tag" {
   default = "v2.6.5"
 }
