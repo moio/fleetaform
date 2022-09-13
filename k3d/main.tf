@@ -38,6 +38,12 @@ resource "k3d_cluster" "upstream" {
     switch_current_context    = true
   }
 
+  // https://github.com/kubernetes/kubernetes/issues/104459
+  k3s {
+    extra_args {
+      arg          = "--disable=metrics-server"
+    }
+  }
 
   dynamic "port" {
     for_each = merge({6443=443}, var.upstream_port_mappings)
@@ -68,6 +74,13 @@ resource "k3d_cluster" "downstream" {
   kubeconfig {
     update_default_kubeconfig = true
     switch_current_context    = false
+  }
+
+  // https://github.com/kubernetes/kubernetes/issues/104459
+  k3s {
+    extra_args {
+      arg          = "--disable=metrics-server"
+    }
   }
 }
 
