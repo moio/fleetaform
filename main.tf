@@ -2,6 +2,11 @@ module "k3d" {
   source = "./k3d"
   ## Uncomment here and the downstream_fleet_registration_1 module below for multiple downstream clusters
   #  downstream_clusters = 2
+  #
+  ## Uncomment here to add port forwardings from k3d
+  #  upstream_port_mappings = {
+  #    3000: 3000,
+  #  }
 }
 
 module "upstream_fleet" {

@@ -38,12 +38,16 @@ resource "k3d_cluster" "upstream" {
     switch_current_context    = true
   }
 
-  port {
-    host_port      = 6443
-    container_port = 443
-    node_filters = [
-      "server:0:direct",
-    ]
+
+  dynamic "port" {
+    for_each = merge({6443=443}, var.upstream_port_mappings)
+    content {
+      host_port      = port.key
+      container_port = port.value
+      node_filters = [
+        "server:0:direct",
+      ]
+    }
   }
 }
 
