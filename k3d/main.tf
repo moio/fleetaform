@@ -26,7 +26,7 @@ resource "k3d_cluster" "upstream" {
   servers = 1
   agents  = 0
 
-  image   = "docker.io/rancher/k3s:v1.23.6-k3s1"
+  image   = var.k3s_image
   network = "k3d"
 
   k3d {
@@ -64,7 +64,7 @@ resource "k3d_cluster" "downstream" {
   servers = 1
   agents  = 0
 
-  image   = "docker.io/rancher/k3s:v1.23.6-k3s1"
+  image   = var.k3s_image
   network = "k3d"
 
   k3d {
