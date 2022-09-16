@@ -38,10 +38,14 @@ resource "k3d_cluster" "upstream" {
     switch_current_context    = true
   }
 
-  // https://github.com/kubernetes/kubernetes/issues/104459
   k3s {
     extra_args {
+      // https://github.com/kubernetes/kubernetes/issues/104459
       arg          = "--disable=metrics-server"
+    }
+    extra_args {
+      // override limit of 1000000 (kubelet's default)
+      arg          = "--kubelet-arg=--max-open-files=67108864"
     }
   }
 
