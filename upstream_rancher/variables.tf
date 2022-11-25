@@ -13,7 +13,7 @@ variable "cert_manager_chart" {
 }
 
 variable "chart" {
-  default = "https://releases.rancher.com/server-charts/latest/rancher-2.6.5.tgz"
+  default = "https://releases.rancher.com/server-charts/latest/rancher-2.7.0.tgz"
 }
 
 variable "image_repository" {
@@ -21,5 +21,5 @@ variable "image_repository" {
 }
 
 variable "image_tag" {
-  default = "v2.6.5"
+  default = "v2.7.0"
 }

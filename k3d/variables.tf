@@ -10,5 +10,5 @@ variable "upstream_port_mappings" {
 }
 
 variable "k3s_image" {
-  default = "docker.io/rancher/k3s:v1.23.6-k3s1"
+  default = "docker.io/rancher/k3s:v1.24.8-k3s1"
 }

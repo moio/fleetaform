@@ -6,20 +6,20 @@ variable "credentials" {
 }
 
 variable "crd_chart" {
-  default = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-crd-0.3.9.tgz"
+  default = "https://github.com/rancher/fleet/releases/download/v0.5.0/fleet-crd-0.5.0.tgz"
 }
 variable "chart" {
-  default = "https://github.com/rancher/fleet/releases/download/v0.3.9/fleet-0.3.9.tgz"
+  default = "https://github.com/rancher/fleet/releases/download/v0.5.0/fleet-0.5.0.tgz"
 }
 variable "image_repository" {
   default = "rancher/fleet"
 }
 variable "image_tag" {
-  default = "v0.3.9"
+  default = "v0.5.0"
 }
 variable "agent_image_repository" {
   default = "rancher/fleet-agent"
 }
 variable "agent_image_tag" {
-  default = "v0.3.9"
+  default = "v0.5.0"
 }
